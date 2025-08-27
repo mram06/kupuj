@@ -1,7 +1,10 @@
 import { AddLinkButton } from "@/features/ads/add-button/ui/AddLinkButton";
+import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router";
 
 function Header() {
+  const user = useSelector((state) => state.auth.user);
+
   return (
     <header className="px-7 py-3.5">
       <div className="container mx-auto flex items-center justify-between">
@@ -47,6 +50,7 @@ function Header() {
                   Профіль
                 </NavLink>
               </li>
+              {user && <div>{user.email}</div>}
             </ul>
           </nav>
           <AddLinkButton />

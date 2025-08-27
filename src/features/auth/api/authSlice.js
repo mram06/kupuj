@@ -4,7 +4,7 @@ const initialState = {
   user: null,
   accessToken: null,
 
-  loading: true,
+  loading: false,
   error: null,
 };
 import { authApi } from "./authApi";
@@ -16,6 +16,7 @@ const authSlice = createSlice({
     setCredentials(state, action) {
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
+      localStorage.setItem("accessToken", action.payload.accessToken);
     },
     logout(state) {
       state.user = null;

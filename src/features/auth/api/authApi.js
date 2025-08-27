@@ -1,5 +1,6 @@
 import { apiRoutes } from "@/shared/config/routes/apiRoutes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setCredentials } from "./authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_API,
@@ -12,8 +13,8 @@ const baseQuery = fetchBaseQuery({
   },
 });
 export const authApi = createApi({
-  reducerPath: baseQuery,
-  baseUrl: import.meta.env.VITE_BASE_API,
+  reducerPath: "authApi",
+  baseQuery: baseQuery,
   tagTypes: ["User"],
   endpoints: (build) => ({
     login: build.mutation({
@@ -22,6 +23,10 @@ export const authApi = createApi({
         method: "POST",
         body: credentials,
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(setCredentials(data));
+      },
     }),
     logout: build.mutation({
       query: () => ({

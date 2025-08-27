@@ -1,25 +1,18 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-// import { logout } from "@/features/auth";
 
-import { useRefreshMutation } from "@/features/auth/api/authApi";
+import { useDispatch } from "react-redux";
+import { useRefreshMutation } from "@/features/auth";
 
 export function AppInit() {
-  const dispatch = useDispatch();
   const [refresh] = useRefreshMutation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          await refresh().unwrap();
-        } catch {
-          dispatch(logout());
-        }
-      } else {
-        dispatch(logout());
-      }
-    });
-    return () => unsubscribe();
-  }, [dispatch, refresh]);
+    const init = async () => {
+      await refresh().unwrap();
+    };
+    init();
+  }, [refresh, dispatch]);
+
+  return null;
 }
