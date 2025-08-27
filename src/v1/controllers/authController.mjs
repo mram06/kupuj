@@ -1,12 +1,11 @@
-import UsersDBService from "../models/user/UsersDBService.mjs";
+import jwt from "jsonwebtoken";
 import {
   generateAccessToken,
   generateRefreshToken,
-  prepareToken,
 } from "../../../utils/jwtHelpers.mjs";
-import pool from "../../../db/connectDB.mjs";
 import bcrypt from "bcryptjs";
 import AuthDBService from "../models/auth/AuthDBService.mjs";
+import UsersDBService from "../models/user/UsersDBService.mjs";
 
 class AuthController {
   static async signup(req, res) {
@@ -91,6 +90,27 @@ class AuthController {
     } catch (err) {
       console.log(err);
       res.status(401).json({ error: "Login error" });
+    }
+  }
+  static async refresh(req, res) {
+    const token = req.cookies.refreshToken;
+    if (!token) return res.sendStatus(401);
+
+    try {
+      const payload = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+      const user = await UsersDBService.getById(payload.id);
+
+      if (!user) return res.sendStatus(401);
+      // 5. Генеруємо новий accessToken
+      const accessToken = generateAccessToken(user);
+      // 6. Відправляємо новий accessToken і дані користувача у відповідь
+      res.json({
+        user: { id: user.id, email: user.email, role: user.role },
+        accessToken,
+      });
+    } catch {
+      // Якщо refreshToken невалідний або прострочений
+      return res.sendStatus(403);
     }
   }
 }

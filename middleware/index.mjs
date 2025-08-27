@@ -13,7 +13,12 @@ const __dirname = path.dirname(__filename);
 
 const middleware = (app) => {
   // Middleware для підтримки CORS (Cross-Origin Resource Sharing)
-  app.use(cors());
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    })
+  );
 
   // Middleware для аутентифікації та авторизації
   auth(app);
