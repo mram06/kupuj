@@ -14,7 +14,7 @@ export const TopAdsItem = ({ item, children }) => {
 
       <div className="absolute inset-0 flex items-center justify-center z-20">
         <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-          <AddLinkButton />
+          {children}
         </div>
       </div>
     </article>

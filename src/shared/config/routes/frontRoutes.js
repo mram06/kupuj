@@ -28,14 +28,30 @@ export const frontRoutes = {
         requireAuth: true,
       },
     },
-    // NotFoundPage: {
-    //   path: "*",
-    //   meta: {
-    //     title: "Not Found",
-    //     isInMenu: false,
-    //     requireAuth: false,
-    //   },
-    // },
+    AdsPage: {
+      path: "ads/category/:categoryId",
+      navigationPath: (categoryId) => `ads/category/${categoryId}`,
+      meta: {
+        title: "ads",
+        requireAuth: false,
+      },
+    },
+    AdPage: {
+      path: "ads/:id",
+      navigationPath: (id) => `ads/${id}`,
+      meta: {
+        title: "ad",
+        requireAuth: false,
+      },
+    },
+
+    NotFoundPage: {
+      path: "*",
+      meta: {
+        title: "found",
+        requireAuth: false,
+      },
+    },
     // ForbiddenPage: {
     //   path: "forbidden",
     //   navigationPath: "/forbidden",
