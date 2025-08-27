@@ -52,6 +52,13 @@ export const frontRoutes = {
         requireAuth: false,
       },
     },
+    LoginPage: {
+      path: "login",
+      meta: {
+        title: "login",
+        requireAuth: false,
+      },
+    },
     // ForbiddenPage: {
     //   path: "forbidden",
     //   navigationPath: "/forbidden",
