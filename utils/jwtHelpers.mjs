@@ -4,20 +4,25 @@ import jwt from "jsonwebtoken";
 const expiresIn = "60m";
 
 // Секретний ключ для токена (повинен бути збережений у .env файлі)
-const tokenKey = "Our Token Key"; // Save in .env !!!
+const tokenKey = process.env.SECRET_KEY; // Save in .env !!!
 
 // Функція для парсингу Bearer токена та декодування користувача
 export function parseBearer(bearer, headers) {
   let token;
+
   // Перевіряємо, чи токен починається з 'Bearer '
   if (bearer.startsWith("Bearer ")) {
     token = bearer.slice(7); // Видаляємо 'Bearer ' з початку токена
   }
+
   try {
     // Декодуємо токен з використанням підготовленого секрету
-    const decoded = jwt.verify(token, prepareSecret(headers));
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     return decoded; // Повертаємо декодовані дані
   } catch (err) {
+    console.log(err);
+
     // Якщо токен невірний або закінчився його термін дії, буде згенеровано помилку
     throw new Error("Invalid token");
   }
@@ -26,7 +31,7 @@ export function parseBearer(bearer, headers) {
 // Функція для створення JWT токена
 export function prepareToken(data, headers) {
   // Підписуємо дані токена з використанням підготовленого секрету
-  return jwt.sign(data, prepareSecret(headers), {
+  return jwt.sign(data, process.env.JWT_SECRET, {
     expiresIn, // Вказуємо час дії токена
   });
 }

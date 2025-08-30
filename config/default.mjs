@@ -7,4 +7,8 @@ export default Object.freeze({
   password: process.env.MYSQL_ADDON_PASSWORD,
   database: process.env.MYSQL_ADDON_DB,
   secretKey: process.env.SECRET_KEY,
+  email: {
+    user: process.env.MAIL_USER,
+    password: process.env.EMAIL_PASSWORD,
+  },
 });
