@@ -8,10 +8,7 @@ export const AddLinkButton = () => {
     navigate(frontRoutes.pages.AddAdPage.navigationPath);
   };
   return (
-    <button
-      onClick={handleLink}
-      className="py-4 px-6 rounded-2xl text-white font-bold bg-emerald-500 hover:bg-emerald-600 transition-colors cursor-pointer"
-    >
+    <button onClick={handleLink} className="btn-primary">
       Додати оголошення
     </button>
   );

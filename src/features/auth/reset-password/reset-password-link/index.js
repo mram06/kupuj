@@ -1,0 +1,1 @@
+export { ResetPasswordLink } from "./ResetPasswordLink";

@@ -1,18 +1,17 @@
 import { useEffect } from "react";
 
 import { useDispatch } from "react-redux";
-import { useRefreshMutation } from "@/features/auth";
+import { useRefreshToken } from "@/features/auth/refresh";
 
 export function AppInit() {
-  const [refresh] = useRefreshMutation();
-  const dispatch = useDispatch();
+  const { refresh } = useRefreshToken();
 
   useEffect(() => {
     const init = async () => {
-      await refresh().unwrap();
+      await refresh();
     };
     init();
-  }, [refresh, dispatch]);
+  }, []);
 
   return null;
 }

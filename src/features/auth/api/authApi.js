@@ -17,6 +17,17 @@ export const authApi = createApi({
   baseQuery: baseQuery,
   tagTypes: ["User"],
   endpoints: (build) => ({
+    signup: build.mutation({
+      query: (credentials) => ({
+        url: apiRoutes.auth.signup,
+        method: "POST",
+        body: credentials,
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(setCredentials(data));
+      },
+    }),
     login: build.mutation({
       query: (credentials) => ({
         url: apiRoutes.auth.login,
@@ -40,8 +51,28 @@ export const authApi = createApi({
         method: "POST",
       }),
     }),
+    resetPassword: build.mutation({
+      query: (data) => ({
+        url: apiRoutes.auth.resetPassword,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    changePassword: build.mutation({
+      query: (data) => ({
+        url: apiRoutes.auth.changePassword,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRefreshMutation } =
-  authApi;
+export const {
+  useSignupMutation,
+  useLoginMutation,
+  useLogoutMutation,
+  useRefreshMutation,
+  useResetPasswordMutation,
+  useChangePasswordMutation,
+} = authApi;

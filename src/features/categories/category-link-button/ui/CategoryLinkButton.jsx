@@ -8,10 +8,7 @@ export const CategoryLinkButton = ({ id, children }) => {
   };
 
   return (
-    <button
-      onClick={handleLink}
-      className="bg-gray-100 py-4 px-6 rounded-2xl border-1 border-gray-200 hover:bg-gray-200 transition-colors duration-200"
-    >
+    <button onClick={handleLink} className="btn-secondary">
       {children}
     </button>
   );

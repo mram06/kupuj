@@ -1,5 +1,7 @@
 // import { roles } from "../roles";
 
+import { ResetPasswordGetTokenForm } from "@/features/auth/reset-password/reset-password-get-token-form";
+
 export const frontRoutes = {
   pages: {
     // НазваСторінки: {
@@ -54,11 +56,48 @@ export const frontRoutes = {
     },
     LoginPage: {
       path: "login",
+      navigationPath: "/login",
       meta: {
         title: "login",
         requireAuth: false,
       },
     },
+    SignupPage: {
+      path: "signup",
+      navigationPath: "/signup",
+      meta: {
+        title: "login",
+        requireAuth: false,
+      },
+    },
+    ResetPasswordPage: {
+      path: "reset-password",
+      navigationPath: "/reset-password",
+      meta: {
+        title: "resetPassword",
+        requireAuth: false,
+      },
+      children: [
+        {
+          index: true,
+          navigationPath: "/reset-password",
+          Component: ResetPasswordGetTokenForm,
+          meta: {
+            title: "resetPasswordGetToken",
+            requireAuth: false,
+          },
+        },
+      ],
+    },
+    ProfilePage: {
+      path: "profile",
+      navigationPath: "/profile",
+      meta: {
+        title: "profile",
+        requireAuth: true,
+      },
+    },
+
     // ForbiddenPage: {
     //   path: "forbidden",
     //   navigationPath: "/forbidden",

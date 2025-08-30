@@ -32,10 +32,7 @@ export const CategoryListDropdown = () => {
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
-      <button
-        className="py-4 px-6 bg-gray-100 hover:bg-gray-200 rounded-2xl border border-gray-200 transition-colors duration-200"
-        onClick={handleToggle}
-      >
+      <button className="btn-secondary" onClick={handleToggle}>
         <span>⋯</span>
       </button>
 

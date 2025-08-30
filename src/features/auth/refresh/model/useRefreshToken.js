@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { tokenRefreshed, logout } from "@/features/auth/api/authSlice";
-import { useRefreshMutation } from "@/features/auth/api";
+import { useRefreshMutation } from "@/features/auth";
 
 export function useRefreshToken() {
   const [refreshMutation] = useRefreshMutation();
@@ -8,7 +8,8 @@ export function useRefreshToken() {
 
   async function refresh() {
     try {
-      const result = await refreshMutation();
+      const result = await refreshMutation().unwrap();
+
       if (result.data) {
         dispatch(tokenRefreshed(result.data));
         return true;

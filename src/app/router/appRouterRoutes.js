@@ -8,6 +8,7 @@ export const appRouterRoutes = pagesList.map((page) => ({
   lazy: async () => {
     // щоб коректно працювало після деплою
     const importPage = pages[`../../pages/${page}.jsx`];
+
     return { Component: (await importPage()).default };
   },
 }));

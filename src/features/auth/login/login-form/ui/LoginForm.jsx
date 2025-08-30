@@ -1,15 +1,31 @@
-export const LoginForm = ({ handleSubmit }) => {
+import { Input } from "@/shared/ui/Input";
+import useLoginForm from "../model/useLoginForm";
+import { ResetPasswordLink } from "@/features/auth/reset-password/reset-password-link";
+import { Button } from "@/shared/ui/Button";
+
+export const LoginForm = ({ onSubmit, isLoading }) => {
+  const {
+    register,
+    handleSubmit,
+    field: { errors },
+  } = useLoginForm();
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        <input type="text" className="bg-gray-300" name="email" />
-      </label>
-      <label>
-        <input type="text" className="bg-gray-300" name="password" />
-      </label>
-      <button type="submit" className="bg-amber-300">
-        login
-      </button>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+      <Input
+        placeholder="Електронна пошта"
+        error={errors.email?.message}
+        {...register("email")}
+      />
+      <Input
+        type="password"
+        placeholder="Пароль"
+        error={errors.password?.message}
+        {...register("password")}
+      />
+      <ResetPasswordLink />
+      <Button type="submit" isLoading={isLoading}>
+        Увійти
+      </Button>
     </form>
   );
 };
