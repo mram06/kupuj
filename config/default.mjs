@@ -16,4 +16,5 @@ export default Object.freeze({
     googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
   },
+  redirectURL: process.env.REDIRECT_URL,
 });

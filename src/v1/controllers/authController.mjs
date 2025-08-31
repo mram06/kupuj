@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import AuthDBService from "../models/auth/AuthDBService.mjs";
 import UsersDBService from "../models/user/UsersDBService.mjs";
 import MailSender from "../../../utils/MailSender.mjs";
+import config from "../../../config/default.mjs";
 
 class AuthController {
   static async signup(req, res) {
@@ -116,7 +117,7 @@ class AuthController {
           }; Path=/`
         );
 
-        return res.redirect("http://localhost:5173/");
+        return res.redirect(config.redirectURL);
       }
 
       const registeredUser = await AuthDBService.register(user);
@@ -131,9 +132,9 @@ class AuthController {
         }; Path=/`
       );
 
-      res.redirect("http://localhost:5173/");
+      res.redirect(config.redirectURL);
     } catch {
-      res.redirect("http://localhost:5173/login?status=500");
+      res.redirect(`${config.redirectURL}login?status=500`);
     }
 
     console.log(user);
@@ -148,15 +149,12 @@ class AuthController {
       const user = await UsersDBService.getById(payload.id);
 
       if (!user) return res.sendStatus(401);
-      // 5. Генеруємо новий accessToken
       const accessToken = generateAccessToken(user);
-      // 6. Відправляємо новий accessToken і дані користувача у відповідь
       res.json({
         user: { id: user.id, email: user.email, role: user.role },
         accessToken,
       });
     } catch {
-      // Якщо refreshToken невалідний або прострочений
       return res.sendStatus(403);
     }
   }
