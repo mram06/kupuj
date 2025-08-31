@@ -6,6 +6,7 @@ import loggerConfig from "../config/logger.mjs";
 import cors from "cors";
 import sessionConfig from "../config/session.mjs";
 import auth from "./auth.mjs";
+import passport from "../config/passport.mjs";
 
 // Визначення поточного файлу і директорії
 const __filename = fileURLToPath(import.meta.url);
@@ -22,6 +23,9 @@ const middleware = (app) => {
 
   // Middleware для аутентифікації та авторизації
   auth(app);
+
+  // Middleware passport аутентифікації
+  app.use(passport.initialize());
 
   // Middleware для логування запитів
   app.use(loggerConfig);

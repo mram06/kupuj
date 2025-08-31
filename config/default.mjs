@@ -11,4 +11,9 @@ export default Object.freeze({
     user: process.env.MAIL_USER,
     password: process.env.EMAIL_PASSWORD,
   },
+  google: {
+    googleClientId: process.env.GOOGLE_CLIENT_ID,
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL,
+  },
 });

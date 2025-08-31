@@ -98,6 +98,47 @@ class AuthController {
     }
   }
 
+  static async googleAuthCallback(req, res) {
+    const user = {
+      name: req.user._json.given_name,
+      lastname: req.user._json.family_name,
+      email: req.user._json.email,
+    };
+    try {
+      const existUser = await UsersDBService.getByEmail(user.email);
+      if (existUser) {
+        const refreshToken = generateRefreshToken(existUser);
+
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          secure: false, // true - in production
+          sameSite: "strict",
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        return res.redirect("http://localhost:5173/");
+      }
+
+      const registeredUser = await AuthDBService.register(user);
+      console.log(registeredUser);
+
+      const refreshToken = generateRefreshToken(registeredUser);
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: false, // true - in production
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      res.redirect("http://localhost:5173/");
+    } catch {
+      res.redirect("http://localhost:5173/login?status=500");
+    }
+
+    console.log(user);
+  }
+
   static async refresh(req, res) {
     const token = req.cookies.refreshToken;
     if (!token) return res.sendStatus(401);
