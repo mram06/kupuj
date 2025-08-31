@@ -2,7 +2,7 @@ import { ResetPasswordFormWithActions } from "@/widgets/auth/ResetPasswordFormWi
 
 function ResetPasswordPage() {
   return (
-    <section>
+    <section className="container">
       <ResetPasswordFormWithActions />
     </section>
   );

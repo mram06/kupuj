@@ -30,12 +30,14 @@ export const SignupForm = ({ onSubmit, isLoading }) => {
       <Input
         type="password"
         placeholder="Пароль"
+        autoComplete="password"
         error={errors.password?.message}
         {...register("password")}
       />
       <Input
         type="password"
         placeholder="Повторіть пароль"
+        autoComplete="password"
         error={errors.confirmPassword?.message}
         {...register("confirmPassword")}
       />

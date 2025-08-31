@@ -19,6 +19,7 @@ export const LoginForm = ({ onSubmit, isLoading }) => {
       <Input
         type="password"
         placeholder="Пароль"
+        autoComplete="password"
         error={errors.password?.message}
         {...register("password")}
       />

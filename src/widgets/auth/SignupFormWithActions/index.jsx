@@ -1,5 +1,6 @@
 import { LoginTypeToggle, useSignupMutation } from "@/features/auth";
 import { SignupForm } from "@/features/auth";
+import { GoogleAuthButton } from "@/features/auth/google-auth-button";
 import { useNavigate } from "react-router";
 
 export const SignupFormWithActions = () => {
@@ -19,7 +20,7 @@ export const SignupFormWithActions = () => {
   };
 
   return (
-    <div className="mx-auto max-w-105">
+    <>
       <LoginTypeToggle />
       <SignupForm onSubmit={handleSubmit} isLoading={isLoading} />
       {error?.status === 401 && (
@@ -27,6 +28,14 @@ export const SignupFormWithActions = () => {
           Не вірний email або пароль
         </div>
       )}
-    </div>
+      <div className="flex gap-2 items-center my-12">
+        <span className="w-full h-0.5 bg-gray-300"></span>
+        <span>Або</span>
+        <span className="w-full h-0.5 bg-gray-300"></span>
+      </div>
+      <div className="flex flex-col">
+        <GoogleAuthButton />
+      </div>
+    </>
   );
 };
