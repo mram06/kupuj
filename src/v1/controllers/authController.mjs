@@ -39,12 +39,12 @@ class AuthController {
       const refreshToken = generateRefreshToken(registeredUser);
 
       res
-        .cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure: false, // true - in production
-          sameSite: "strict",
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-        })
+        .setHeader(
+          "Set-Cookie",
+          `refreshToken=${refreshToken}; HttpOnly; Secure; SameSite=None; Max-Age=${
+            7 * 24 * 60 * 60
+          }; Path=/`
+        )
         .json({
           user: {
             id: user.id,
@@ -82,12 +82,12 @@ class AuthController {
       const refreshToken = generateRefreshToken(user);
 
       res
-        .cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure: false, // true - in production
-          sameSite: "strict",
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-        })
+        .setHeader(
+          "Set-Cookie",
+          `refreshToken=${refreshToken}; HttpOnly; Secure; SameSite=None; Max-Age=${
+            7 * 24 * 60 * 60
+          }; Path=/`
+        )
         .json({
           user: { id: user.id, email: user.email, role: user.role },
           accessToken,
@@ -109,12 +109,12 @@ class AuthController {
       if (existUser) {
         const refreshToken = generateRefreshToken(existUser);
 
-        res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure: false, // true - in production
-          sameSite: "strict",
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
+        res.setHeader(
+          "Set-Cookie",
+          `refreshToken=${refreshToken}; HttpOnly; Secure; SameSite=None; Max-Age=${
+            7 * 24 * 60 * 60
+          }; Path=/`
+        );
 
         return res.redirect("http://localhost:5173/");
       }
@@ -124,12 +124,12 @@ class AuthController {
 
       const refreshToken = generateRefreshToken(registeredUser);
 
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: false, // true - in production
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
+      res.setHeader(
+        "Set-Cookie",
+        `refreshToken=${refreshToken}; HttpOnly; Secure; SameSite=None; Max-Age=${
+          7 * 24 * 60 * 60
+        }; Path=/`
+      );
 
       res.redirect("http://localhost:5173/");
     } catch {
