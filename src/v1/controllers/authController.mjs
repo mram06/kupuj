@@ -166,7 +166,12 @@ class AuthController {
   }
 
   static logout(req, res) {
-    res.clearCookie("refreshToken");
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    });
     res.sendStatus(204);
   }
 
