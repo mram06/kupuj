@@ -6,12 +6,15 @@ import { ResetPasswordChangeForm } from "@/features/auth/reset-password/reset-pa
 import { ResetPasswordGetTokenAgainButton } from "@/features/auth/reset-password/reset-password-get-token-again-button";
 import { ResetPasswordGetTokenForm } from "@/features/auth/reset-password/reset-password-get-token-form";
 import { frontRoutes } from "@/shared/config/routes/frontRoutes";
+import { addToast } from "@/shared/ui/Toast/toastSlice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
 export const ResetPasswordFormWithActions = () => {
   const [currentStep, setCurrentStep] = useState("reset");
   const [userEmail, setUserEmail] = useState("");
+  const dispatch = useDispatch();
   const [resetPassword, { isLoading: isResetLoading, error: resetError }] =
     useResetPasswordMutation();
 
@@ -32,6 +35,14 @@ export const ResetPasswordFormWithActions = () => {
   const handleChangePassword = async (values) => {
     try {
       await changePassword({ email: userEmail, ...values }).unwrap();
+      dispatch(
+        addToast({
+          type: "success",
+          title: "Успішно!",
+          description: "Пароль змінено. Будь ласка, увійдіть в акаунт",
+        })
+      );
+
       navigate(frontRoutes.pages.LoginPage.navigationPath);
     } catch (error) {
       console.log(error);

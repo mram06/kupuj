@@ -12,7 +12,15 @@ export const MyAdsSection = () => {
     data: userAdverts,
     isLoading: isUserAdvertsLoading,
     error: userAdvertsError,
-  } = useGetAdvertsByUserIdQuery({ id: user.id });
+  } = useGetAdvertsByUserIdQuery({ id: user?.id }, { skip: !user });
+
+  if (!user) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-600">Будь ласка, увійдіть в акаунт</p>
+      </div>
+    );
+  }
 
   return (
     <div>
