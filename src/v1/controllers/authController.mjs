@@ -193,7 +193,8 @@ class AuthController {
         text: `Your reset code: ${token}`,
       });
       res.status(200).json({ message: "Reset code sent to email" });
-    } catch {
+    } catch (err) {
+      console.error("Reset password error:", err);
       res.status(500).json({ error: "Reset password error" });
     }
   }
