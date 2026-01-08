@@ -43,7 +43,10 @@ const middleware = (app) => {
   app.use(express.static(path.join(__dirname, "../public")));
 
   // Middleware для обробки статичних файлів з директорії uploads
-  app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+  app.use(
+    "/api/v1/uploads",
+    express.static(path.join(__dirname, "../uploads"))
+  );
 
   // Middleware для налаштування сесій
   app.use(sessionConfig);

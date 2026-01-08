@@ -21,8 +21,11 @@ class AuthController {
       // }
 
       const existUser = await UsersDBService.getByEmail(req.body.email);
-      if (existUser)
-        res.status(409).json({ error: "User with this email already exist" });
+      if (existUser) {
+        return res
+          .status(409)
+          .json({ error: "User with this email already exist" });
+      }
 
       const user = {
         name: req.body.name,
@@ -121,8 +124,6 @@ class AuthController {
       }
 
       const registeredUser = await AuthDBService.register(user);
-      console.log(registeredUser);
-
       const refreshToken = generateRefreshToken(registeredUser);
 
       res.setHeader(
@@ -136,8 +137,6 @@ class AuthController {
     } catch {
       res.redirect(`${config.redirectURL}login?status=500`);
     }
-
-    console.log(user);
   }
 
   static async refresh(req, res) {
@@ -151,17 +150,26 @@ class AuthController {
       if (!user) return res.sendStatus(401);
       const accessToken = generateAccessToken(user);
       res.json({
-        user: { id: user.id, email: user.email, role: user.role },
+        user: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          name: user.name,
+          lastName: user.lastname,
+          phone: user.phone,
+        },
         accessToken,
       });
     } catch {
       return res.sendStatus(403);
     }
   }
+
   static logout(req, res) {
     res.clearCookie("refreshToken");
     res.sendStatus(204);
   }
+
   static async resetPassword(req, res) {
     if (!req.body.email)
       return res.status(401).json({ error: "Email is required" });
@@ -186,6 +194,7 @@ class AuthController {
       res.status(500).json({ error: "Reset password error" });
     }
   }
+
   static async changePassword(req, res) {
     const email = req.body.email;
     const resetCode = req.body.resetCode;
@@ -222,9 +231,51 @@ class AuthController {
       });
 
       res.clearCookie("refreshToken");
-      res.status(200).json({ error: "Password changed successfully" });
-    } catch {
+      res.status(200).json({ message: "Password changed successfully" });
+    } catch (err) {
+      console.error("Change password error:", err);
       res.status(500).json({ error: "Change password error" });
+    }
+  }
+
+  static async updateProfile(req, res) {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const { name, lastname, email, phone } = req.body;
+
+      // Validate required fields
+      if (!name || !lastname || !email || !phone) {
+        return res.status(400).json({
+          error: "Name, lastname, email, and phone are required",
+        });
+      }
+
+      // Check if email already exists for another user
+      const existingUser = await UsersDBService.getByEmail(email);
+      if (existingUser && existingUser.id !== userId) {
+        return res.status(409).json({
+          error: "Email already in use by another user",
+        });
+      }
+
+      const updatedUser = await UsersDBService.updateProfile(userId, {
+        name,
+        lastname,
+        email,
+        phone,
+      });
+
+      res.status(200).json({
+        message: "Profile updated successfully",
+        user: updatedUser,
+      });
+    } catch (err) {
+      console.error("Update profile error:", err);
+      res.status(500).json({ error: "Update profile error" });
     }
   }
 }

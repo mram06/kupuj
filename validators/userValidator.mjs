@@ -3,13 +3,6 @@ import { validationResult } from "express-validator";
 import fs from "fs";
 
 class UserValidator {
-  static userValidationRules = [
-    body("email").isEmail().withMessage("Invalid email address"),
-    body("password")
-      .isLength({ min: 6 })
-      .withMessage("Password must be at least 6 characters long"),
-    body("name").not().isEmpty().withMessage("Name is required"),
-  ];
   static userSchema = {
     email: {
       isEmail: {

@@ -23,33 +23,31 @@ class AuthDBService {
   }
 
   static async generateResetPasswordToken(userId, token) {
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
-
-    const sql = `INSERT INTO password_reset_tokens (user_id, token, expires_at) VALUES (?, ?, ?)`;
-    await pool.query(sql, [userId, token, expiresAt]);
+    // Let MySQL calculate the expiration time with its configured timezone
+    const sql = `INSERT INTO password_reset_tokens (user_id, token, expires_at) 
+                 VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 5 MINUTE))`;
+    await pool.query(sql, [userId, token]);
 
     return true;
   }
+
   static async checkTokenValidity(userId, token) {
-    const sql = `SELECT * FROM password_reset_tokens
-                  WHERE user_id = ? AND token = ?`;
+    const sql = `SELECT user_id, token, expires_at FROM password_reset_tokens
+                  WHERE user_id = ? AND token = ? AND expires_at > NOW()`;
     const [result] = await pool.query(sql, [userId, token]);
 
     const foundToken = result[0];
-    if (!foundToken) return false;
-    const currentTime = new Date();
 
-    // check is the token expired
-    if (currentTime > foundToken.expires_at) return false;
-
-    return true;
+    // If token found and not expired, it's valid
+    return !!foundToken;
   }
+
   static async changePassword(userId, newPassword, token) {
-    // Оновлюємо пароль
+    // Update password
     const sql = `UPDATE users SET password = ? WHERE id = ?`;
     await pool.query(sql, [newPassword, userId]);
 
-    // (Опціонально) Видаляємо використаний токен
+    // Delete used token
     const sqlDelete = `DELETE FROM password_reset_tokens WHERE user_id = ? AND token = ?`;
     await pool.query(sqlDelete, [userId, token]);
 

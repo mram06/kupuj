@@ -8,7 +8,10 @@ async function connectToMySQL() {
       user: config.user,
       password: config.password,
       database: config.database,
+      timezone: "+02:00",
+      dateStrings: true,
     });
+
     console.log("Connected to MySQL");
     return pool;
   } catch (err) {
