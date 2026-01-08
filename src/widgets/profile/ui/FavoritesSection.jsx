@@ -1,7 +1,7 @@
 import { AdItemWithActions } from "@/features/ads/ad-item";
 import { useGetFavoritesQuery } from "@/features/ads/api/advertsApi";
 import linkImages from "@/shared/api/linkImages";
-import { Error } from "@/shared/ui/Notifications";
+import { Error, NotFound } from "@/shared/ui/Notifications";
 
 export const FavoritesSection = () => {
   const {

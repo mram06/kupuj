@@ -34,9 +34,25 @@ export const MyAdsSection = () => {
 
         {userAdverts?.data &&
           !isUserAdvertsLoading &&
+          userAdverts.data.length > 0 &&
           linkImages(userAdverts.data).map((advert) => (
             <AdItemWithOwnerActions data={advert} key={advert.id} />
           ))}
+
+        {userAdverts?.data &&
+          !isUserAdvertsLoading &&
+          userAdverts.data.length === 0 && (
+            <div className="text-center py-12">
+              <div className="text-5xl mb-4">📭</div>
+              <p className="text-gray-600 text-lg font-medium">
+                Немає оголошень
+              </p>
+              <p className="text-gray-500 mt-2">
+                Почніть з створення першого оголошення
+              </p>
+            </div>
+          )}
+
         {userAdvertsError && <Error />}
       </div>
     </div>
