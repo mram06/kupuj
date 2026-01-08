@@ -10,6 +10,7 @@ export default Object.freeze({
   email: {
     user: process.env.MAIL_USER,
     password: process.env.EMAIL_PASSWORD,
+    brevoApiKey: process.env.BREVO_API_KEY,
   },
   google: {
     googleClientId: process.env.GOOGLE_CLIENT_ID,

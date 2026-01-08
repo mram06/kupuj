@@ -189,8 +189,10 @@ class AuthController {
 
       await MailSender.sendMail({
         recipientEmail: req.body.email,
-        subject: "Reset password",
-        text: `Your reset code: ${token}`,
+        subject: "Скидання пароля - Kupuj",
+        template: "reset-password",
+        token: token.toString(),
+        userName: existUser.name,
       });
       res.status(200).json({ message: "Reset code sent to email" });
     } catch (err) {
@@ -230,8 +232,9 @@ class AuthController {
 
       await MailSender.sendMail({
         recipientEmail: email,
-        subject: "Your password has been changed",
-        text: `Your password has been changed`,
+        subject: "Пароль змінено - Kupuj",
+        template: "password-changed",
+        userName: existUser.name,
       });
 
       res.clearCookie("refreshToken");
