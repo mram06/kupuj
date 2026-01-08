@@ -1,0 +1,5 @@
+@reference 'tailwindcss';
+
+.section {
+  @apply flex flex-col gap-6 bg-gray-100 rounded-2xl p-6;
+}

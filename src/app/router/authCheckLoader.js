@@ -40,8 +40,8 @@ export const authCheckLoader =
             authApi.endpoints.refresh.initiate()
           );
 
-          if (result?.data && result.data.uid) {
-            user = result.data;
+          if (result?.data) {
+            user = result.data.user || result.data;
           } else {
             throw new Error("Not authenticated");
           }

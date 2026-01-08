@@ -1,0 +1,5 @@
+@reference 'tailwindcss';
+
+.textarea-secondary {
+  @apply w-full h-56 bg-white p-4 rounded-2xl border border-gray-200 hover:bg-gray-200 transition-colors duration-200 outline-0 resize-none;
+}

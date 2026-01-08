@@ -30,9 +30,18 @@ export const frontRoutes = {
         requireAuth: true,
       },
     },
+    EditAdPage: {
+      path: "ads/:id/edit",
+      navigationPath: (id) => `/ads/${id}/edit`,
+      meta: {
+        title: "edit",
+        requireAuth: true,
+      },
+    },
     AdsPage: {
-      path: "ads/category/:categoryId",
-      navigationPath: (categoryId) => `ads/category/${categoryId}`,
+      path: "ads",
+      navigationPath: (categoryId = "", search = "") =>
+        `ads?category=${categoryId}&search=${search}`,
       meta: {
         title: "ads",
         requireAuth: false,
@@ -40,7 +49,7 @@ export const frontRoutes = {
     },
     AdPage: {
       path: "ads/:id",
-      navigationPath: (id) => `ads/${id}`,
+      navigationPath: (id) => `/ads/${id}`,
       meta: {
         title: "ad",
         requireAuth: false,
@@ -95,6 +104,14 @@ export const frontRoutes = {
       meta: {
         title: "profile",
         requireAuth: true,
+      },
+    },
+    AboutPage: {
+      path: "about",
+      navigationPath: "/about",
+      meta: {
+        title: "about",
+        requireAuth: false,
       },
     },
 

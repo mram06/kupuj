@@ -65,6 +65,21 @@ export const authApi = createApi({
         body: data,
       }),
     }),
+    updateProfile: build.mutation({
+      query: (data) => ({
+        url: apiRoutes.auth.updateProfile,
+        method: "PUT",
+        body: data,
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setCredentials(data));
+        } catch (error) {
+          console.error("Failed to update profile", error);
+        }
+      },
+    }),
   }),
 });
 
@@ -75,4 +90,5 @@ export const {
   useRefreshMutation,
   useResetPasswordMutation,
   useChangePasswordMutation,
+  useUpdateProfileMutation,
 } = authApi;

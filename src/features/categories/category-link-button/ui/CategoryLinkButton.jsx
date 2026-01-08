@@ -1,4 +1,5 @@
 import { frontRoutes } from "@/shared/config/routes/frontRoutes";
+import { Button } from "@/shared/ui/Button";
 import { useNavigate } from "react-router";
 
 export const CategoryLinkButton = ({ id, children }) => {
@@ -8,8 +9,8 @@ export const CategoryLinkButton = ({ id, children }) => {
   };
 
   return (
-    <button onClick={handleLink} className="btn-secondary">
+    <Button onClick={handleLink} secondary>
       {children}
-    </button>
+    </Button>
   );
 };

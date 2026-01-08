@@ -1,8 +1,15 @@
-import { useParams } from "react-router";
+import { Banner } from "@/shared/ui/Banner";
+import { AdsList } from "@/widgets/ads/Ads-list/ui/AdsList";
+import { FilterPanel } from "@/widgets/ads/FilterPanel/ui/FilterPanel";
 
 function AdsPage() {
-  const { categoryId } = useParams();
-  return <div>ads page {categoryId}</div>;
+  return (
+    <>
+      <Banner />
+      <FilterPanel />
+      <AdsList />
+    </>
+  );
 }
 
 export default AdsPage;

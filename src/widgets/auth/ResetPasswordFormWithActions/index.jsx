@@ -39,7 +39,7 @@ export const ResetPasswordFormWithActions = () => {
   };
   return (
     <div className="m-auto max-w-105">
-      <h1>Скинути пароль </h1>
+      <h3 className="text-2xl font-semibold mb-4">Скинути пароль</h3>
       {currentStep === "reset" ? (
         <ResetPasswordGetTokenForm
           onSubmit={handleGetResetCode}

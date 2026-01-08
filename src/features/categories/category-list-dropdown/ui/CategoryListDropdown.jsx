@@ -27,7 +27,7 @@ export const CategoryListDropdown = () => {
   const navigate = useNavigate();
   const handleLink = (categoryId) => {
     navigate(frontRoutes.pages.AdsPage.navigationPath(categoryId));
-    setIsOpen(false); // Закриваємо дропдаун після вибору категорії
+    setIsOpen(false);
   };
 
   return (

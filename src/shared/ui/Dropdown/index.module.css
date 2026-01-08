@@ -1,0 +1,60 @@
+@reference 'tailwindcss';
+
+.dropdown-primary {
+  @apply w-full bg-gray-100 px-6 py-3.5 rounded-2xl !border !border-gray-200 hover:bg-gray-200 transition-colors duration-200 outline-0;
+}
+
+.dropdown-secondary {
+  @apply w-full bg-white p-4 rounded-2xl !border !border-gray-200 hover:bg-gray-200 transition-colors duration-200 outline-0;
+}
+
+.dropdown-primary,
+.dropdown-secondary,
+.dropdown-primary::picker(select),
+.dropdown-secondary::picker(select) {
+  @apply border border-gray-200 rounded-2xl;
+  appearance: base-select;
+}
+
+.dropdown-primary::picker-icon,
+.dropdown-secondary::picker-icon {
+  display: none;
+}
+
+.dropdown-primary::-webkit-outer-spin-button,
+.dropdown-primary::-webkit-inner-spin-button,
+.dropdown-secondary::-webkit-outer-spin-button,
+.dropdown-secondary::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.dropdown-primary option,
+.dropdown-secondary option {
+  @apply p-4 hover:bg-emerald-100 transition-colors duration-150;
+}
+
+.dropdown-primary option::checkmark,
+.dropdown-secondary option::checkmark {
+  display: none;
+}
+
+.dropdown-picker {
+  pointer-events: none;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+}
+
+.dropdown-primary:open ~ .dropdown-picker,
+.dropdown-secondary:open ~ .dropdown-picker {
+  transform: translateY(-50%) rotate(180deg);
+}

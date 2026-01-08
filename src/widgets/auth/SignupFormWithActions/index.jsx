@@ -2,9 +2,12 @@ import { LoginTypeToggle, useSignupMutation } from "@/features/auth";
 import { SignupForm } from "@/features/auth";
 import { GoogleAuthButton } from "@/features/auth/google-auth-button";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { addToast } from "@/shared/ui/Toast/toastSlice";
 
 export const SignupFormWithActions = () => {
   const [signup, { isLoading, error }] = useSignupMutation();
+  const dispatch = useDispatch();
 
   const params = new URLSearchParams(location.search);
   const redirectTo = params.get("redirect") || "/";
@@ -13,9 +16,43 @@ export const SignupFormWithActions = () => {
     try {
       await signup(values).unwrap();
 
+      dispatch(
+        addToast({
+          type: "success",
+          title: "Вітаємо!",
+          description: "Ви успішно зареєструвалися",
+        })
+      );
+
       navigate(redirectTo, { replace: true });
     } catch (error) {
       console.log(error);
+
+      if (error?.status === 409) {
+        dispatch(
+          addToast({
+            type: "error",
+            title: "Помилка реєстрації",
+            description: "Користувач з таким email вже існує",
+          })
+        );
+      } else if (error?.status === 401) {
+        dispatch(
+          addToast({
+            type: "error",
+            title: "Помилка",
+            description: "Невірні дані для реєстрації",
+          })
+        );
+      } else {
+        dispatch(
+          addToast({
+            type: "error",
+            title: "Помилка",
+            description: "Щось пішло не так. Спробуйте пізніше",
+          })
+        );
+      }
     }
   };
 

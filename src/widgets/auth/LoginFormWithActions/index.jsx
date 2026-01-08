@@ -2,11 +2,13 @@ import { LoginTypeToggle } from "@/features/auth";
 import { useLoginMutation } from "@/features/auth/api/authApi";
 import { GoogleAuthButton } from "@/features/auth/google-auth-button";
 import { LoginForm } from "@/features/auth/login/login-form";
-import { frontRoutes } from "@/shared/config/routes/frontRoutes";
-import { NavLink, useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { addToast } from "@/shared/ui/Toast/toastSlice";
 
 export const LoginFormWithActions = () => {
   const [login, { isLoading, error }] = useLoginMutation();
+  const dispatch = useDispatch();
 
   const params = new URLSearchParams(location.search);
   const redirectTo = params.get("redirect") || "/";
@@ -15,9 +17,35 @@ export const LoginFormWithActions = () => {
     try {
       await login(values).unwrap();
 
+      dispatch(
+        addToast({
+          type: "success",
+          title: "Вітаємо!",
+          description: "Ви успішно увійшли в систему",
+        })
+      );
+
       navigate(redirectTo, { replace: true });
     } catch (error) {
       console.log(error);
+
+      if (error?.status === 401) {
+        dispatch(
+          addToast({
+            type: "error",
+            title: "Помилка входу",
+            description: "Невірний email або пароль",
+          })
+        );
+      } else {
+        dispatch(
+          addToast({
+            type: "error",
+            title: "Помилка",
+            description: "Щось пішло не так. Спробуйте пізніше",
+          })
+        );
+      }
     }
   };
 

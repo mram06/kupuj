@@ -1,29 +1,31 @@
-import { TopAdsItem } from "@/entities/top-ads/top-ads-item";
+import {
+  TopAdsItem,
+  TopAdsItemSkeleton,
+} from "@/entities/top-ads/top-ads-item";
 import styles from "./TopAdsPanel.module.css";
 
-import houseImg from "@/assets/img/house.jpg";
-import routerImg from "@/assets/img/router.jpg";
-import glassesImg from "@/assets/img/glasses.jpg";
-import tarasImg from "@/assets/img/taras.jpg";
-import dogImg from "@/assets/img/dog.jpg";
 import { OpenAdLinkButton } from "@/features/ads/open-button";
-
-const data = [
-  { id: 1, img: houseImg },
-  { id: 2, img: routerImg },
-  { id: 3, img: glassesImg },
-  { id: 4, img: tarasImg },
-  { id: 5, img: dogImg },
-];
+import { useGetTopAdvertsQuery } from "@/features/ads/api/advertsApi";
+import linkImages from "@/shared/api/linkImages";
+import { Error } from "@/shared/ui/Notifications";
 
 export const TopAdsPanel = () => {
+  const { data, isLoading, error } = useGetTopAdvertsQuery();
+
   return (
     <div className={styles["items-container"]}>
-      {data.map((ad) => (
-        <TopAdsItem key={ad.id} item={ad}>
-          <OpenAdLinkButton id={ad.id} />
-        </TopAdsItem>
-      ))}
+      {!isLoading &&
+        !error &&
+        linkImages(data)?.map((ad) => (
+          <TopAdsItem key={ad.id} item={ad}>
+            <OpenAdLinkButton id={ad.id} />
+          </TopAdsItem>
+        ))}
+      {isLoading &&
+        [1, 2, 3, 4, 5].map((item, index) => (
+          <TopAdsItemSkeleton key={index} />
+        ))}
+      {error && <Error />}
     </div>
   );
 };

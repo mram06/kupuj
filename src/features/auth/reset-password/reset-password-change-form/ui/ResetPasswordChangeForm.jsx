@@ -23,7 +23,7 @@ export const ResetPasswordChangeForm = ({ onSubmit, isLoading, children }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <div>
-        <label>Код підтвердження</label>
+        <label className="block mb-6">Код підтвердження</label>
         <CodeInput
           length={6}
           value={codeValue}
