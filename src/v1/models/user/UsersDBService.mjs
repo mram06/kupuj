@@ -25,7 +25,7 @@ class UsersDBService extends CRUDManager {
   async updateProfile(userId, userData) {
     const { name, lastname, email, phone } = userData;
     const sql = `UPDATE users SET name = ?, lastname = ?, email = ?, phone = ? WHERE id = ?`;
-    const [result] = await pool.query(sql, [name, lastname, email, userId]);
+    const [result] = await pool.query(sql, [name, lastname, email, phone, userId]);
 
     // Return updated user
     return await this.getById(userId);
