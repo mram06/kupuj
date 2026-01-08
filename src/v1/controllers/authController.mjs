@@ -166,12 +166,10 @@ class AuthController {
   }
 
   static logout(req, res) {
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: "/",
-    });
+    res.setHeader(
+      "Set-Cookie",
+      "refreshToken=; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 UTC"
+    );
     res.sendStatus(204);
   }
 
